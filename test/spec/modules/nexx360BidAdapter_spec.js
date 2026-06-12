@@ -74,6 +74,13 @@ describe('Nexx360 bid adapter tests', () => {
       getParamStub.withArgs('nexx360_debug').returns('0');
       expect(getGzipSetting()).to.equal(true);
     });
+
+    it('reads the config of the passed alias bidder code', () => {
+      config.setBidderConfig({ bidders: ['revenuemaker'], config: { gzipEnabled: 'false' } });
+      expect(getGzipSetting('revenuemaker')).to.equal(false);
+      // the nexx360 bucket is untouched, so it falls back to the default
+      expect(getGzipSetting('nexx360')).to.equal(true);
+    });
   });
 
   describe('isBidRequestValid()', () => {
